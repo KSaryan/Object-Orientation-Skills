@@ -20,10 +20,10 @@ and polymorphism. Abstraction means that you or someone else can create a method
 somewhere else and then you can later use that method or class without having to know how
 it works. For example, I can use len() without having to know how it works exactly.
 Encapsulation means you can organize better. You can keep everything you need together. For 
-example, your Cat class can contain everything about cats. Or your shipping file, can contain 
+example, your Cat class can contain everything about cats. Or your shipping.py file, can contain 
 all the functions that have to do with shipping. Finally, polymorphism means you can
 change things. You can create a new class that inherits from  your Cat class. It can
-take one some of the attributes and methods while overriding others.
+take on some of the attributes and methods while overriding others.
 
 2. A class is, as said in lecture, a type of thing. It's some type of object that has
 been defined and has certain attributes and methods associated with it. So, all the instances
@@ -44,7 +44,7 @@ instance of a book. It shares many class attributes and methods with other books
 you can read it. However, it also has some instance attributes: page count, language.
 
 6. A class attribute is true of all the instances of that class, while an instance attribute
-is particular of each instance. For example, if you had a class called Melon. Shape may be a 
+is particular to each instance. For example, if you had a class called Melon. Shape may be a 
 class attribute, since all melons are round. However, color or width would be instance
 attributes since some melons will be differing colors and sizes.
 
@@ -108,6 +108,7 @@ class Exam (object):
             result = question.ask_and_evaluate()
             if result:
                 score += 1
+        
         return (float(score)/len(self.questions)) * 100
 
 # I wasn't sure if you wanted this way...
@@ -116,7 +117,7 @@ class Exam (object):
 #     """stores student, exam, and student's exam score"""
     
 #     def __init__(self, student, exam):
-#         self.student= student
+#         self.student = student
 #         self.exam = exam
 #         self.student_score = None 
     
@@ -156,6 +157,7 @@ class StudentExam(object):
         """administers test and prints score"""
 
         self.student_score = self.exam.administer()
+        
         print "{}, you have earned a score of {} percent on the {}.".format(self.student.first_name, 
             self.student_score, self.exam)
 
@@ -179,16 +181,9 @@ class Quiz(Exam):
         return "<>this is only a quiz<>"
     
     def administer(self):
-        """administers quiz and retunrs 1 or 0 to reprsent pass/fail"""
+        """administers quiz and returns 1 or 0 to reprsent pass/fail"""
 
-        score = 0
-        
-        for question in self.questions:
-            result = question.ask_and_evaluate()
-            if result:
-                score += 1
-        
-        percentage = (float(score) / len(self.questions)) * 100
+        percentage = super(Quiz, self).administer()
         
         if percentage >= 50:
             return 1
@@ -201,7 +196,7 @@ class StudentQuiz(StudentExam):
     
     def __init__(self, student_first_name, student_last_name, student_adresss):
         super(StudentQuiz, self).__init__(student_first_name, student_last_name, student_adresss, "quiz")
-        self.quiz= Quiz()
+        self.quiz = Quiz()
     
     def __repr__(self):
         return "<>{}'s quiz<>".format(self.student.first_name)
